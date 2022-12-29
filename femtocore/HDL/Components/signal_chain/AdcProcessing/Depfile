@@ -1,0 +1,27 @@
+{
+    "general":{
+        "project_name":"AdcProcessing",
+        "target_part":"xc7z020clg400",
+        "synth_modules":[],
+        "synth_tl": "AdcProcessing",
+        "sim_modules":[],
+        "sim_tl":"AdcProcessing_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        }
+    ],
+    "excluded_modules":[
+        "zynq_apb_bd",
+        "Decimator"
+    ],
+    "constraints": [
+        "adcProcessing.xdc"
+    ]
+}

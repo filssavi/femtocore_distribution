@@ -1,0 +1,41 @@
+{
+    "general":{
+        "project_name":"fCore",
+        "target_part":"xc7z020clg400",
+        "synth_modules":[],
+        "synth_tl": "fCore",
+        "sim_modules":[],
+        "sim_tl":"fCore_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        },
+        {
+            "name":"fcore_alu.py",
+            "type": "py",
+            "arguments":["fp_alu_div.tcl", "--reciprocal", "--name", "fcore_div_alu"],
+            "product_include":true,
+            "product_type":"tcl"
+        },
+        {
+            "name":"fcore_alu.py",
+            "type": "py",
+            "arguments":["fp_alu_simple.tcl", "--name", "fcore_simple_alu"],
+            "product_include":true,
+            "product_type":"tcl"
+        }
+    ],
+    "excluded_modules":[
+        "fCore_PS_bd",
+        "fp_alu",
+        "fcore_simple_alu",
+        "fcore_div_alu"
+    ],
+    "constraints": []
+}

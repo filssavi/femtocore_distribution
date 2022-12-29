@@ -1,0 +1,130 @@
+// Copyright 2021 University of Nottingham Ningbo China
+// Author: Filippo Savi <filssavi@gmail.com>
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+`timescale 10ns / 1ns
+`include "interfaces.svh"
+
+module axi_stream_combiner_{{n_streams}} #(parameter INPUT_DATA_WIDTH = 16, OUTPUT_DATA_WIDTH = 32, TLAST_PERIOD = 1024, MSB_DEST_SUPPORT = "TRUE")(
+    input wire clock,
+    input wire reset,
+{%- for number in streams %}
+    axi_stream.slave stream_in_{{number}},
+{%- endfor %}
+    axi_stream.master stream_out
+);
+
+    reg [INPUT_DATA_WIDTH-1:0] combined_data;
+    reg [7:0] combined_dest;
+    reg [7:0] combined_user;
+    reg combined_valid;
+    wire combined_tlast;
+
+    generate
+        assign stream_out.tlast = combined_tlast;
+        assign stream_out.user = combined_user;
+        assign stream_out.valid = combined_valid;
+        assign stream_out.dest = combined_dest;
+        if(MSB_DEST_SUPPORT == "TRUE")begin
+            assign stream_out.data = {combined_dest, {(OUTPUT_DATA_WIDTH-INPUT_DATA_WIDTH-8){combined_data[INPUT_DATA_WIDTH-1]} }, combined_data};
+        end else begin
+        
+            assign stream_out.data = {{ '{{' }}(OUTPUT_DATA_WIDTH-INPUT_DATA_WIDTH){combined_data[INPUT_DATA_WIDTH-1]}},combined_data};
+        end  
+    endgenerate
+
+
+
+    ///////////////STREAM COMBINATION SECTION///////////////
+
+    reg {% for number in streams %}int_stream_{{number}}_ready{%- if not loop.last %}, {% endif %}{%- endfor %};
+{% for number in streams %}
+    assign stream_in_{{number}}.ready = int_stream_{{number}}_ready & stream_out.ready;
+{%- endfor %} 
+
+    always@(posedge clock)begin
+        if(~reset)begin
+        {%- for number in streams %}
+            int_stream_{{number}}_ready <= 0;
+        {%- endfor %} 
+            combined_dest <= 0;
+            combined_user <= 0;
+            combined_valid <= 0;
+            combined_data <= 0;
+        end else begin
+
+            {% for number in streams -%}
+            if(stream_in_{{number}}.valid & stream_out.ready)begin
+            {%- for number_2 in streams %}
+                {%- if not number_2==number %}
+                int_stream_{{number_2}}_ready <= 0;{%- else -%}{%- endif -%}
+            {% endfor %} 
+                combined_user <= stream_in_{{number}}.user;            
+                combined_dest <= stream_in_{{number}}.dest;
+                combined_data <= stream_in_{{number}}.data;
+                combined_valid <=1;
+
+            {% if not loop.last %}end else {% endif -%} 
+        {%- endfor -%} 
+            end else begin
+                combined_valid <= 0;
+            {%- for number in streams %}
+                int_stream_{{number}}_ready <= 1;
+            {%- endfor %} 
+            end
+        end
+    end
+
+
+
+    ///////////////TLAST GENERATION SECTION///////////////
+{% for number in streams %}
+    reg [15:0] tlast_counter_{{number}};
+{%- endfor %} 
+
+    reg {% for number in streams %}stream_{{number}}_prev_val{%- if not loop.last %}, {% endif %}{%- endfor %};
+    reg {% for number in streams %}int_tlast_{{number}}{%- if not loop.last %}, {% endif %}{%- endfor %};
+
+    assign combined_tlast = {% for number in streams %}int_tlast_{{number}}{%- if not loop.last %} | {% endif %}{%- endfor %};
+
+    always@(posedge clock)begin
+        if(~reset)begin
+        {%- for number in streams %}
+            tlast_counter_{{number}} <= 0;
+            stream_{{number}}_prev_val <= 0;
+            int_tlast_{{number}} <= 0;
+        {% endfor %} 
+        end else begin
+            {% for number in streams -%}
+                if(stream_in_{{number}}.valid & ~stream_{{number}}_prev_val)begin
+                    if(tlast_counter_{{number}}==TLAST_PERIOD-1)begin
+                        tlast_counter_{{number}} <= 0;
+                        int_tlast_{{number}} <= 1;
+                    end else begin
+                        tlast_counter_{{number}} <= tlast_counter_{{number}}+1;
+                    end
+
+                {% if not loop.last %}end else {% endif -%} 
+            {%- endfor -%} 
+                end else begin
+                {%- for number in streams %}
+                    int_tlast_{{number}} <= 0;
+                {%- endfor %} 
+                end    
+        end
+    {%- for number in streams %}
+        stream_{{number}}_prev_val <= stream_in_{{number}}.valid;
+    {%- endfor %} 
+    end
+endmodule

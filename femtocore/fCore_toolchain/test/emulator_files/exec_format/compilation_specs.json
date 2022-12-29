@@ -1,0 +1,13 @@
+{
+  "input_file": "test_exec_format.c",
+  "output": {
+    "format":"mem",
+    "file": "test_exec_format.mem"
+  },
+  "force": true,
+  "dma_io": {
+    "a":{"type": "input", "address":15},
+    "b":{"type": "input", "address":38},
+    "c":{"type": "output", "address":42}
+  }
+}

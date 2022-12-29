@@ -1,0 +1,23 @@
+{
+    "general":{
+        "project_name":"constant",
+        "target_part":"xc7z020clg400",
+        "synth_modules":[],
+        "synth_tl": "axis_constant",
+        "sim_modules":[],
+        "sim_tl":"axis_constant_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        }
+    ],
+    "excluded_modules":[
+    ],
+    "constraints": []
+}

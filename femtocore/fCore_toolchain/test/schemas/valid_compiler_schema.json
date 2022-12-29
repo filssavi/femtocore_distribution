@@ -1,0 +1,9 @@
+{
+  "input_file":"local_control.c",
+  "output":{
+    "format":"mem",
+    "file":"local_control.mem"
+  },
+  "dump_ast":0,
+  "force":true
+}

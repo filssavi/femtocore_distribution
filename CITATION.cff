@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use the femtocore processor or its toolchain, please cite it as below."
+authors:
+  - family-names: Filippo
+    given-names: Savi
+    orcid: https://orcid.org/0000-0002-7234-2486
+title: "FemtoCore distribution"
+version: 1.0.0
+doi: 10.5281/zenodo.7491765
+date-released: 2022-12-29

@@ -1,0 +1,71 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Root Schema",
+    "required": [
+        "input_file",
+        "output"
+    ],
+    "properties": {
+        "input_file": {
+            "type": "string",
+            "title": "Path of the input file"
+        },
+        "output": {
+            "type": "object",
+            "title": "Object that specifies the compiler output",
+            "required": [
+                "format",
+                "file"
+                ],
+            "properties": {
+                "format": {
+                    "type": "string",
+                    "enum": ["mem", "hex", "json"],
+                    "title": "Format of the output file"
+                },
+                "file": {
+                    "type": "string",
+                    "title": "Name of the output file to produce"
+                }
+            }
+        },
+        "dump_ast": {
+            "type": "integer",
+            "title": "Specify whether and how much the AST should be dumped during compilation"
+        },
+        "force": {
+            "type": "boolean",
+            "title": "Force overwriting of existing output products"
+        },
+        "dma_io": {
+            "type": "object",
+            "title": "Object associating dma Inputs and outputs with the relevant io space register",
+            "additionalProperties": {
+                "type": "object",
+                "title":"Object describing Inputs and outputs of a femtocore program",
+                "required": [
+                    "type",
+                    "address"
+                ],
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "title": "Direction of the DMA variable"
+                    },
+                    "address": {
+                        "type": [
+                            "array",
+                            "integer"
+                        ],
+                        "title": "Address for the relevant DMA variable",
+                        "items": {
+                            "type": "integer",
+                            "title": "Address for a single scalar DMA variable or vector element"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "general":{
+        "project_name":"PwmGenerator",
+        "target_part":"xc7z020clg400",
+        "synth_modules":[],
+        "synth_tl": "PwmGenerator",
+        "sim_modules":[],
+        "sim_tl":"PwmGenerator_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        }
+    ],
+    "excluded_modules":[],
+    "constraints": ["PwmGenerator.xdc"]
+}

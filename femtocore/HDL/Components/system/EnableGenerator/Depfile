@@ -1,0 +1,29 @@
+{
+    "general":{
+        "project_name":"EnableGenerator",
+        "target_part":"xc7z020clg400",
+        "synth_modules":[
+            "enable_generator",
+            "enable_generator_core"
+        ],
+        "synth_tl": "enable_generator_2",
+        "sim_modules":[
+            "EnableGen_core_tb"
+        ],
+        "sim_tl":"EnableGen_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        }
+    ],
+    "excluded_modules":[
+    ],
+    "constraints": [
+    ]
+}

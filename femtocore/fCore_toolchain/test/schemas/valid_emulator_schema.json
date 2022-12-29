@@ -1,0 +1,50 @@
+{
+  "cores": [
+    {
+      "id": "global_control",
+      "order": 1,
+      "inputs": {
+        "file": "global_control/inputs.csv",
+        "types": {
+          "v_grid_a":"i"
+        },
+        "registers": {
+          "v_grid_a":4
+        },
+        "channels": {
+          "v_grid_a":0
+        }
+      },
+      "outputs": [
+        {
+          "reg_n":15,
+          "type":"f",
+          "name":"z_err"
+        }
+
+      ],
+      "program": {
+        "type": "mem",
+        "file": "global_control/global_control.mem"
+      },
+      "channels": 1,
+      "options":{
+        "comparators":"reducing",
+        "efi_implementation":"efi_trig"
+      }
+    }
+  ],
+  "interconnect":[
+    {
+      "source":"mmc_model",
+      "destination":"global_control",
+      "registers":[
+        {
+          "name":"i_grid_a",
+          "source":[0, 62],
+          "destination":[0, 1]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RadiantProject version="4.1" title="I2C_lscc" device="iCE40UP5K-SG48I" performance_grade="High-Performance_1.2V" default_implementation="build">
+    <Options/>
+    <Implementation title="build" dir="build" description="build" synthesis="lse" default_strategy="Strategy1">
+        <Options/>
+        <Source name="../../../Common/interfaces.svh" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="../../../Common/zynqApb_wrapper.sv" type="Verilog" type_short="Verilog">
+            <Options VerilogStandard="System Verilog"/>
+        </Source>
+        <Source name="../rtl/DataEngine.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="../rtl/I2C_control_unit.sv" type="Verilog" type_short="Verilog">
+            <Options VerilogStandard="System Verilog"/>
+        </Source>
+        <Source name="../rtl/I2C_test_xlnx.sv" type="Verilog" type_short="Verilog">
+            <Options VerilogStandard="System Verilog"/>
+        </Source>
+        <Source name="../rtl/I2c.sv" type="Verilog" type_short="Verilog">
+            <Options VerilogStandard="System Verilog"/>
+        </Source>
+        <Source name="../rtl/TransferController.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="../../../system/ApbToSimplebus/rtl/APB_to_Simplebus.sv" type="Verilog" type_short="Verilog">
+            <Options VerilogStandard="System Verilog"/>
+        </Source>
+        <Source name="../../../system/EnableGenerator/rtl/enable_generator_core.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="I2C_lscc1.sty"/>
+</RadiantProject>

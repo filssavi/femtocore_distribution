@@ -1,0 +1,24 @@
+{
+    "general":{
+        "project_name":"axis_to_axil",
+        "target_part":"xc7z020clg400",
+        "synth_modules":[],
+        "synth_tl": "axis_to_axil",
+        "sim_modules":[],
+        "sim_tl":"axis_to_axil_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        }
+    ],
+    "excluded_modules":[
+    ],
+    "constraints": [
+    ]
+}

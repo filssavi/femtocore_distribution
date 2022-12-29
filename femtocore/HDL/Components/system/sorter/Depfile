@@ -1,0 +1,30 @@
+{
+    "general":{
+        "project_name":"sorter",
+        "target_part":"xc7z020clg400",
+	    "synth_modules":[],
+        "synth_tl": "merge_sorter",
+        "sim_modules":[
+            "batcher_sorter_8_serial_tb",
+            "sorter_tb",
+            "merge_sorter_tb"
+            
+        ],
+        "sim_tl":"sorter_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        }
+    ],
+    "excluded_modules":[
+    ],
+    "constraints": [
+        "sorter.xdc"
+    ]
+}

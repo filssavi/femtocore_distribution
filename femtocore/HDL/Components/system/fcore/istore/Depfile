@@ -1,0 +1,29 @@
+{
+    "general":{
+        "project_name":"fCore_Istore",
+        "target_part":"xc7z020clg400",
+        "synth_modules":[],
+        "synth_tl": "fCore_Istore",
+        "sim_modules":[],
+        "sim_tl":"fcore_istore_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        },
+        {
+            "name":"VIP_bd.tcl",
+            "type": "tcl",
+            "arguments":[]
+        } 
+    ],
+    "excluded_modules":[
+        "vip_bd"
+    ],
+    "constraints": []
+}

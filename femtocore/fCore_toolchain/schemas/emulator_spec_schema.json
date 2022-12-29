@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "type": "object",
+  "title": "Root Schema",
+  "required": [
+    "cores"
+  ],
+  "properties": {
+    "cores": {
+      "type": "array",
+      "title": "Array of core objects describing one or more cores in a multicore cluster",
+      "items": {
+        "type": "object",
+        "title": "Object describing a core to emulate",
+        "required": [
+          "id",
+          "order",
+          "program",
+          "channels",
+          "options"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Identification string of the core"
+          },
+          "order": {
+            "type": "integer",
+            "title": "Field indicating the order in which cores must be run in a multicore emulation session"
+          },
+          "inputs": {
+            "type": "object",
+            "title": "Object describing the inputs to the core",
+            "required": [
+              "file",
+              "types",
+              "registers",
+              "channels"
+            ],
+            "properties": {
+              "file": {
+                "type": "string",
+                "title": "Path of the csv file from which the inputs are taken"
+              },
+              "types": {
+                "type": "object",
+                "title": "Object indicating the type for each input",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "registers": {
+                "type": "object",
+                "title": "Object associating inputs to the target core register",
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "channels": {
+                "type": "object",
+                "title": "Object associating each input to the relative channel on the core",
+                "additionalProperties": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "outputs": {
+            "type": "array",
+            "default": [],
+            "title": "Array of objects that specify the emulation outputs from the core",
+            "items": {
+              "type": "object",
+              "title": "Object describing a single emulation output",
+              "required": [
+                "reg_n",
+                "type",
+                "name"
+              ],
+              "properties": {
+                "reg_n": {
+                  "type": "integer",
+                  "title": "array containing the register addres and channel nubert of the target"
+                },
+                "type": {
+                  "type": "string",
+                  "title": "type to use for the output"
+                },
+                "name": {
+                  "type": "string",
+                  "title": "Name to give to this output"
+                }
+              }
+            }
+          },
+          "program": {
+            "type": "object",
+            "title": "Description of the program to run on this core",
+            "required": [
+              "type",
+              "file"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "title": "type of the program input file"
+              },
+              "file": {
+                "type": "string",
+                "title": "path of the program input file"
+              }
+            }
+          },
+          "memory_init": {
+            "type": "object",
+            "default": {},
+            "title": "Object describing the initial memory values",
+            "required": [
+              "index",
+              "type",
+              "values"
+            ],
+            "properties": {
+              "index": {
+                "type": "array",
+                "default": [],
+                "title": "Index of the register to initialize",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "type": {
+                "type": "array",
+                "title": "type of value to use for the initialization",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "values": {
+                "type": "array",
+                "title": "Value to use for the initialization",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "channels": {
+            "type": "integer",
+            "title": "number of channels active on this core"
+          },
+          "options": {
+            "type": "object",
+            "default": {},
+            "title": "Core behaviour configuration options",
+            "required": [
+              "comparators"
+            ],
+            "properties": {
+              "comparators": {
+                "type": "string",
+                "title": "Type of comparator implementation implemented for this core"
+              },
+              "efi_implementation": {
+                "type": "string",
+                "title": "EFI implementation selector"
+              }
+            }
+          }
+        }
+      }
+    },
+    "interconnect": {
+      "type": "array",
+      "title": "Array of object describing how the cores should be connected",
+      "items": {
+        "type": "object",
+        "title": "Object describing the connection between two cores",
+        "required": [
+          "source",
+          "destination",
+          "registers"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "title": "source core id"
+          },
+          "destination": {
+            "type": "string",
+            "title": "Destination core id"
+          },
+          "registers": {
+            "type": "array",
+            "title": "The registers Schema",
+            "items": {
+              "type": "object",
+              "title": "A Schema",
+              "required": [
+                "name",
+                "source",
+                "destination"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "title": "Name of the connection"
+                },
+                "source": {
+                  "type": "array",
+                  "default": [],
+                  "title": "array that specifies the channel and address of the source register",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "destination": {
+                  "type": "array",
+                  "title": "array that specifies the channel and address of the target register",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

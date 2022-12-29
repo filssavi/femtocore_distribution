@@ -1,0 +1,41 @@
+{
+    "general":{
+        "project_name":"efi_sorter",
+        "target_part":"xc7z020clg400",
+	    "synth_modules":[],
+        "synth_tl": "efi_sorter",
+        "sim_modules":[],
+        "sim_tl":"efi_sorter_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        },
+        {
+            "name":"fcore_alu.py",
+            "type": "py",
+            "arguments":["fp_alu_div.tcl", "--reciprocal", "--name", "fcore_div_alu"],
+            "product_include":true,
+            "product_type":"tcl"
+        },
+        {
+            "name":"fcore_alu.py",
+            "type": "py",
+            "arguments":["fp_alu_simple.tcl", "--name", "fcore_simple_alu"],
+            "product_include":true,
+            "product_type":"tcl"
+        }
+    ],
+    "excluded_modules":[
+        "fcore_div_alu",
+        "fcore_simple_alu"
+    ],
+    "constraints": [
+        "sorter.xdc"
+    ]
+}

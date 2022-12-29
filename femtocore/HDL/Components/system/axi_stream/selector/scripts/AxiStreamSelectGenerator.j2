@@ -1,0 +1,77 @@
+// Copyright 2021 University of Nottingham Ningbo China
+// Author: Filippo Savi <filssavi@gmail.com>
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+`timescale 10ns / 1ns
+`include "interfaces.svh"
+
+module axi_stream_selector_{{n_streams}} #(parameter DATA_WIDTH = 16, REGISTERED = 1)(
+    input wire clock,
+    input wire [{{address_width}}:0] address,
+    axi_stream.slave stream_in,
+{%- for number in streams %}
+    axi_stream.master stream_out_{{number}}{%- if not loop.last %}, {% endif %}
+{%- endfor %}
+
+);
+
+    generate
+
+        if(REGISTERED) begin
+            always_ff@(posedge clock) begin
+                {%- for number in streams %}
+                stream_out_{{number}}.valid <= 0;
+                {%- endfor %}
+
+                case (address)
+                {%- for number in streams %}
+                {{number-1}}:begin
+                        stream_out_{{number}}.data <= stream_in.data;
+                        stream_out_{{number}}.dest<= stream_in.dest;
+                        stream_out_{{number}}.valid <= stream_in.valid;
+                        stream_out_{{number}}.user <= stream_in.user;
+                        stream_out_{{number}}.tlast <= stream_in.tlast;
+                end
+                {%- endfor %}
+                endcase 
+            end
+        end
+
+        always_comb begin
+            case (address)
+            {%- for number in streams %}
+            {{number-1}}: stream_in.ready <= stream_out_{{number}}.ready;
+            {%- endfor %}
+            default: stream_in.ready <= 0;
+            endcase 
+            if(~REGISTERED) begin
+                case (address)
+                {%- for number in streams %}
+                {{number-1}}:begin
+                        stream_out_{{number}}.data <= stream_in.data;
+                        stream_out_{{number}}.dest<= stream_in.dest;
+                        stream_out_{{number}}.valid <= stream_in.valid;
+                        stream_out_{{number}}.user <= stream_in.user;
+                        stream_out_{{number}}.tlast <= stream_in.tlast;
+                end
+                {%- endfor %}
+                endcase 
+            end
+        end
+    
+        
+    endgenerate
+
+   
+endmodule

@@ -1,0 +1,24 @@
+{
+    "general":{
+        "project_name":"standard_decimator",
+        "target_part":"xc7z020clg400",
+        "synth_modules":[],
+        "synth_tl": "standard_decimator",
+        "sim_modules":[],
+        "sim_tl":"standard_decimator_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        }
+    ],
+    "excluded_modules":[
+    ],
+    "constraints": [
+    ]
+}

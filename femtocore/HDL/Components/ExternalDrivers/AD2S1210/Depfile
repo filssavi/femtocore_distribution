@@ -1,0 +1,30 @@
+{
+    "general":{
+        "project_name":"AD2S1210",
+        "target_part":"xc7z020clg400",
+        "synth_modules":[],
+        "synth_tl": "ad2s1210_tl",
+        "sim_modules":[],
+        "sim_tl":"AD2S1210_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        },
+        {
+            "name":"zynqAxiStreamBd.tcl",
+            "type": "tcl",
+            "arguments":[]
+        }
+    ],
+    "excluded_modules":[
+        "PS_AXI_stream"
+    ],
+    "constraints": [
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "general":{
+        "project_name":"I2C",
+        "target_part":"xc7z020clg400",
+        "synth_modules":[],
+        "synth_tl": "i2c_test_tl",
+        "sim_modules":[],
+        "sim_tl":"I2C_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        },
+        {
+            "name":"zynqApbBd.tcl",
+            "type": "tcl",
+            "arguments":[]
+        }
+    ],
+    "excluded_modules":[
+        "zynq_apb_bd"
+    ],
+    "constraints": [
+    ]
+}

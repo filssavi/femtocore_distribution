@@ -1,0 +1,24 @@
+{
+    "general":{
+        "project_name":"axil_external_cu",
+        "target_part":"xc7z020clg400",
+        "synth_modules":[],
+        "synth_tl": "axil_external_registers_cu",
+        "sim_modules":[],
+        "sim_tl":"axil_external_registers_cu_tb",
+        "include_paths":[
+            "Components/Common"
+        ]
+    },
+    "scripts":[
+        {
+            "name":"set_properties.tcl",
+            "type": "tcl",
+            "arguments":[]
+        }
+    ],
+    "excluded_modules":[
+    ],
+    "constraints": [
+    ]
+}
